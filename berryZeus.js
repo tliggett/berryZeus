@@ -129,8 +129,8 @@ function setY(min, max){
 }
 
 function berry(){
- this.x = 0;
- this.y = random(2/3, 1);
+ this.x = 0.5;
+ this.y = random(2/3, 14/15);
  this.alive = true;
  this.k = 0;
  this.speed = random(1/600, 1/200);
@@ -143,7 +143,7 @@ function berry(){
 }
 
 function move(){
-  this.x += this.speed; 
+  //this.x += this.speed; 
   this.k += this.speed*width/12;
   if(this.k > 4){
    this.k = 0; 
@@ -153,11 +153,11 @@ function move(){
 
 function display(){
   if(this.alive){
-  image(berrypics["rollR_0" + int(this.k)], (this.x)*width-height/3, (this.y)*height-height/3, height/1.5,height/1.5);
+  image(berrypics["rollR_0" + int(this.k)], (this.x)*width-height/16, (this.y)*height-height/16, height/8,height/8);
   }else{
     push();
     tint(255, 255-(this.deathCount*5));
-   image(berrypics["sliced"], (this.x)*width-height/3, (this.y)*height-height/3, height/1.5,height/1.5);
+   image(berrypics["sliced"], (this.x)*width-height/16, (this.y)*height-height/16, height/8,height/8);
    pop();
   this.deathCount++;
   }
@@ -167,9 +167,10 @@ function display(){
 
 function tick(){
  if(isActive && s > count){
-  if(abs(lightX/width-this.x) < 0.022 && lightY/height - this.y < 0.03 && lightY/height - this.y > -0.085)
+  if(abs(lightX/width-this.x) < 0.029 && lightY/height - this.y < 0.05 && lightY/height - this.y > -0.07)
     this.alive = false;
  }
+ text((lightY/height -this.y), 100,100);
  if(this.alive)
  this.move();
  this.display();
