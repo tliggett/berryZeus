@@ -170,7 +170,6 @@ function tick(){
   if(abs(lightX/width-this.x) < 0.029 && lightY/height - this.y < 0.05 && lightY/height - this.y > -0.07)
     this.alive = false;
  }
- text((lightY/height -this.y), 100,100);
  if(this.alive)
  this.move();
  this.display();
