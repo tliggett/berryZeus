@@ -1,1 +1,2 @@
-# berryZeus
+# BERRY ZEUS
+Mixed Berry Studios
