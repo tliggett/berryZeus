@@ -129,7 +129,7 @@ function setY(min, max){
 }
 
 function berry(){
- this.x = 0.5;
+ this.x = 0;
  this.y = random(2/3, 14/15);
  this.alive = true;
  this.k = 0;
@@ -143,7 +143,7 @@ function berry(){
 }
 
 function move(){
-  //this.x += this.speed; 
+  this.x += this.speed; 
   this.k += this.speed*width/12;
   if(this.k > 4){
    this.k = 0; 
