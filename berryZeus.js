@@ -4,9 +4,13 @@
 
 var x,y, count, c, s, isActive, grasspic, cloudpic, berrypics, b, lightX, lightY;
 var canvas, windH, windW;
+var level, berries, progress, lives;
+var zeuspic, mixed;
 
 function preload(){
-   grasspic = loadImage("data/Grassy.png");
+   mixed = loadImage("data/mixed.png");
+   zeuspic = loadImage("data/zeus.gif");
+   grasspic = loadImage("data/grass.jpg");
    cloudpic = loadImage("data/cloud.png");
    berrypics = [];
    berrypics["rollR_00"] = loadImage("data/blueberry/rollR_00.png");
@@ -18,6 +22,13 @@ function preload(){
 }
 
 function setup() {
+    
+    level = 1;
+    lives = 3;
+    progress = 0;
+    berries = [];
+    berries[0] = new berry();
+    
     windW = windowWidth;
     windH = windW/2;
     if(windH > windowHeight){
@@ -34,23 +45,42 @@ function setup() {
     c = 0;
     s = 0;
     strokeWeight(1);
-    b = new berry();
     
 }
 
 
 function draw() {
+  
+  if(lives > 0){
+  
   background(135, 206, 235);
   
+  
   noStroke();
+  
   fill(0,0,175);
   textSize(height/15);
-  image(grasspic, 0, height*2/3, width, height/3);
-  image(cloudpic, (width/2) - (height*3.5*(2/5))/2,0, height*3.5*(2/5), height*2/5);
   
-  b.tick();
-  if(b.deathCount > 50){
-   b = new berry(); 
+  image(grasspic, 0, height*2/3, width, height/3);
+  push();
+  tint(255, 125);
+  image(mixed, width*3/7, height*2/3 + height/100, width/7, width/7);
+  pop();
+  
+  
+  image(cloudpic, (width/2) - (height*3.5*(2/5))/2,0, height*3.5*(2/5), height*2/5);
+  for(var i = 0; i < level; i++){
+  berries[i].tick();
+  if(berries[i].deathCount > 50){
+   berries[i] = new berry(); 
+   progress++;
+  }
+  }
+  
+  if(progress > level*3){
+    progress = 0;
+    level ++;
+    berries[level-1] = new berry();
   }
   
   stroke(255, 193, 40);
@@ -71,7 +101,16 @@ function draw() {
    s = 0;
   }
   
+  }else{
+   text("GAME OVER", width/2 -width/10, height/3); 
+  }
+  
   text("Berry Zeus", width*5/6, height/12);
+  text("Level " + level, width*5/6, height/6);
+  
+  for(var i = 0; i <lives; i++){
+   image(zeuspic, width/20 * i, height/30, width/20, width/20); 
+  }
 }
 
 function mousePressed(){
@@ -133,7 +172,7 @@ function berry(){
  this.y = random(2/3, 14/15);
  this.alive = true;
  this.k = 0;
- this.speed = random(1/600, 1/200);
+ this.speed = random(1/600, 1/400 * sqrt(level));
  this.move = move; 
  this.display = display;
  this.tick = tick;
@@ -147,6 +186,10 @@ function move(){
   this.k += this.speed*width/12;
   if(this.k > 4){
    this.k = 0; 
+  }
+  if(this.x > 1){
+   this.x = 0;
+   lives--;
   }
 
 }
